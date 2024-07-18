@@ -3,6 +3,7 @@ package feedBacks
 import (
 	"encoding/json"
 	"enterpret/internal/shared"
+	"log"
 	"net/http"
 )
 
@@ -29,6 +30,7 @@ func (h *Handler) PushFeedbackHandler(w http.ResponseWriter, r *http.Request) {
 	err := h.Service.PushData(pushRequest.Id, pushRequest.SourceId)
 	if err != nil {
 		http.Error(w, "Error while pushing data. Please try again", http.StatusInternalServerError)
+		log.Println(err)
 		return
 	}
 	json.NewEncoder(w).Encode(map[string]bool{"success": true})

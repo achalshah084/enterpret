@@ -1,30 +1,10 @@
 package sources
 
 import (
+	"enterpret/internal/shared"
 	"reflect"
 	"testing"
 )
-
-func TestNewService(t *testing.T) {
-	type args struct {
-		repository    Repository
-		twitterSource TwitterSource
-	}
-	tests := []struct {
-		name string
-		args args
-		want *Service
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := NewService(tt.args.repository, tt.args.twitterSource); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewService() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
 
 func TestService_PullData(t *testing.T) {
 	type fields struct {
@@ -45,7 +25,47 @@ func TestService_PullData(t *testing.T) {
 		want    []shared.Feedback
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Pull Data from twitter for the tenant (sources Service)",
+			fields: fields{},
+			args:   args{startDate: "2024-07-18", endDate: "2024-08-18"},
+			want: []shared.Feedback{
+				shared.Conversation{
+					BaseFeedback: shared.BaseFeedback{
+						Id:      "123",
+						Content: "very well said",
+						Type:    "conversation",
+						Metadata: shared.TwitterMetadata{
+							Country: "india",
+						},
+					},
+					Participants: nil,
+				},
+				shared.Conversation{
+					BaseFeedback: shared.BaseFeedback{
+						Id:      "123",
+						Content: "very well said",
+						Type:    "conversation",
+						Metadata: shared.TwitterMetadata{
+							Country: "india",
+						},
+					},
+					Participants: nil,
+				},
+				shared.Conversation{
+					BaseFeedback: shared.BaseFeedback{
+						Id:      "234",
+						Content: "very well said",
+						Type:    "conversation",
+						Metadata: shared.TwitterMetadata{
+							Country: "usa",
+						},
+					},
+					Participants: nil,
+				},
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

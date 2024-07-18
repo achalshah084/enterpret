@@ -2,6 +2,7 @@ package tenants
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -26,6 +27,7 @@ func (h *Handler) PullFeedbackHandler(w http.ResponseWriter, r *http.Request) {
 	err := h.Service.PullData(startDate, endDate, tenantID)
 	if err != nil {
 		http.Error(w, "Error while pulling data. Please try again", http.StatusInternalServerError)
+		log.Println(err)
 		return
 	}
 	json.NewEncoder(w).Encode(map[string]bool{"success": true})
